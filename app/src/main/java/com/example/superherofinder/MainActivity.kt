@@ -28,6 +28,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initUI() {
+        establecerPantallaPrincipal()
 
         binding.serchSuperhero.setOnQueryTextListener(object :SearchView.OnQueryTextListener
         {
@@ -73,10 +74,28 @@ class MainActivity : AppCompatActivity() {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }
+    private fun establecerPantallaPrincipal(){
+        binding.progressBar.isVisible=true
+        CoroutineScope(Dispatchers.IO).launch {
+            val myResponse=retrofit.create(ApiService::class.java).getSuperHeroes("a")
+            if(myResponse.isSuccessful){
+                val response:SuperHeroesDataResponse? = myResponse.body()
+                if (response != null){
+                    runOnUiThread {
+                        adapter.updateList(response.superheroes)
+                        binding.progressBar.isVisible=false
+
+                    }
+                }
+            }
+        }
+    }
 
     private fun navigateDetails(id:String){
         val intent = Intent(this,DetailsHeroActivity::class.java)
         intent.putExtra(EXTRA_ID,id)
         startActivity(intent)
     }
+
+
 }
