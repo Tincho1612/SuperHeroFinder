@@ -4,11 +4,15 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.MenuItem
 import androidx.appcompat.widget.SearchView
+import androidx.core.view.GravityCompat
 import androidx.core.view.isVisible
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.superherofinder.DetailsHeroActivity.Companion.EXTRA_ID
 import com.example.superherofinder.databinding.ActivityMainBinding
+import com.google.android.material.navigation.NavigationView
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -19,6 +23,8 @@ class MainActivity : AppCompatActivity() {
     lateinit var binding:ActivityMainBinding
     private lateinit var retrofit:Retrofit
     private lateinit var adapter: SuperHeroesAdapter
+    private lateinit var drawerLayout: DrawerLayout
+    private lateinit var navigationView: NavigationView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding= ActivityMainBinding.inflate(layoutInflater)
@@ -29,7 +35,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun initUI() {
         establecerPantallaPrincipal()
-
+        initDrawer()
         binding.serchSuperhero.setOnQueryTextListener(object :SearchView.OnQueryTextListener
         {
             override fun onQueryTextSubmit(query: String?): Boolean {
@@ -95,6 +101,44 @@ class MainActivity : AppCompatActivity() {
         val intent = Intent(this,DetailsHeroActivity::class.java)
         intent.putExtra(EXTRA_ID,id)
         startActivity(intent)
+    }
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            android.R.id.home -> {
+                drawerLayout.openDrawer(GravityCompat.START)
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+    private fun initDrawer(){
+        drawerLayout=binding.drawerLayout
+        navigationView=binding.navigationView
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_menuicon)
+        navigationView.setNavigationItemSelectedListener { menuItem ->
+            when (menuItem.itemId) {
+                // Aquí puedes manejar las acciones de los elementos del menú
+                R.id.nav_item1 -> {
+                    // Lógica para el item 1
+                    // Por ejemplo, abrir una nueva actividad o fragmento
+                    true
+                }
+                R.id.nav_item2 -> {
+                    // Lógica para el item 2
+                    true
+                }
+                R.id.nav_item3-> {
+
+                    true
+                 }
+                R.id.nav_item4 -> {
+                    true
+                }
+                // Agregar más casos según sea necesario
+                else -> false
+            }
+        }
     }
 
 
