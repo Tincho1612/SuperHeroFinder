@@ -1,25 +1,20 @@
-package com.example.superherofinder
+package com.example.superherofinder.Login
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
-import androidx.core.content.ContextCompat
-import androidx.core.content.ContextCompat.startActivity
-import androidx.core.view.isVisible
+import com.example.superherofinder.BdInterface
+import com.example.superherofinder.Register.RegisterActivity
+import com.example.superherofinder.SuperheroListmain.MainActivity
+import com.example.superherofinder.TokenManager
+import com.example.superherofinder.Userdto
 import com.example.superherofinder.databinding.ActivityLoginBinding
-import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import kotlin.math.log
 
 
 class LoginActivity : AppCompatActivity() {
@@ -44,7 +39,7 @@ class LoginActivity : AppCompatActivity() {
 
 
     }
-    private suspend fun callApi(tokenManager: TokenManager,userdto: Userdto){
+    private suspend fun callApi(tokenManager: TokenManager, userdto: Userdto){
         val service = retrofit.create(BdInterface::class.java)
         CoroutineScope(Dispatchers.IO).launch {
             val response=service.signIn(userdto)
@@ -124,7 +119,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun navigateToMain(){
-        val intent=Intent(this@LoginActivity,MainActivity::class.java)
+        val intent=Intent(this@LoginActivity, MainActivity::class.java)
         startActivity(intent)
     }
 
@@ -147,7 +142,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun navigateToRegister() {
-        val intent = Intent(this,RegisterActivity::class.java)
+        val intent = Intent(this, RegisterActivity::class.java)
         startActivity(intent)
     }
 }

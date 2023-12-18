@@ -1,4 +1,4 @@
-package com.example.superherofinder
+package com.example.superherofinder.SuperheroListmain
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -10,7 +10,11 @@ import androidx.core.view.GravityCompat
 import androidx.core.view.isVisible
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.superherofinder.DetailsHeroActivity.Companion.EXTRA_ID
+import com.example.superherofinder.*
+import com.example.superherofinder.Favoritos.FavoritosActivity
+import com.example.superherofinder.SuperheroDetails.DetailsHeroActivity
+import com.example.superherofinder.SuperheroDetails.DetailsHeroActivity.Companion.EXTRA_ID
+import com.example.superherofinder.SuperheroListmain.RecyclerView.SuperHeroesAdapter
 import com.example.superherofinder.databinding.ActivityMainBinding
 import com.google.android.material.navigation.NavigationView
 import kotlinx.coroutines.CoroutineScope
@@ -61,13 +65,15 @@ class MainActivity : AppCompatActivity() {
             val myResponse = retrofit.create(ApiService::class.java).getSuperHeroes(aBuscar)
             if (myResponse.isSuccessful){
                 Log.i("consulting","Funciona :)")
-                val response:SuperHeroesDataResponse? = myResponse.body()
+                val response: SuperHeroesDataResponse? = myResponse.body()
                 if (response != null){
                     runOnUiThread {
                         adapter.updateList(response.superheroes)
                         binding.progressBar.isVisible=false
 
                     }
+                }else{
+                    Log.i("consulting","No funciona:)")
                 }
             }else Log.i("consulting","No funciona:)")
         }
@@ -85,7 +91,7 @@ class MainActivity : AppCompatActivity() {
         CoroutineScope(Dispatchers.IO).launch {
             val myResponse=retrofit.create(ApiService::class.java).getSuperHeroes("a")
             if(myResponse.isSuccessful){
-                val response:SuperHeroesDataResponse? = myResponse.body()
+                val response: SuperHeroesDataResponse? = myResponse.body()
                 if (response != null){
                     runOnUiThread {
                         adapter.updateList(response.superheroes)
@@ -98,7 +104,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun navigateDetails(id:String){
-        val intent = Intent(this,DetailsHeroActivity::class.java)
+        val intent = Intent(this, DetailsHeroActivity::class.java)
         intent.putExtra(EXTRA_ID,id)
         startActivity(intent)
     }
@@ -120,15 +126,15 @@ class MainActivity : AppCompatActivity() {
             when (menuItem.itemId) {
                 // Aquí puedes manejar las acciones de los elementos del menú
                 R.id.nav_item1 -> {
-                    // Lógica para el item 1
-                    // Por ejemplo, abrir una nueva actividad o fragmento
+                    val intent=Intent(this@MainActivity, FavoritosActivity::class.java)
+                    startActivity(intent)
                     true
                 }
                 R.id.nav_item2 -> {
                     // Lógica para el item 2
                     true
                 }
-                R.id.nav_item3-> {
+                R.id.nav_item3 -> {
 
                     true
                  }

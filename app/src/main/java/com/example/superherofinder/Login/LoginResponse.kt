@@ -1,4 +1,4 @@
-package com.example.superherofinder
+package com.example.superherofinder.Login
 
 import com.google.gson.annotations.SerializedName
 

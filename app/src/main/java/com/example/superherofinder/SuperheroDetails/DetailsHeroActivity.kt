@@ -1,10 +1,12 @@
-package com.example.superherofinder
+package com.example.superherofinder.SuperheroDetails
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.util.TypedValue
 import android.view.View
+import com.example.superherofinder.ApiService
+import com.example.superherofinder.SuperHeroDetailsResponse
 import com.example.superherofinder.databinding.ActivityDetailsHeroBinding
 import com.squareup.picasso.Picasso
 import kotlinx.coroutines.CoroutineScope

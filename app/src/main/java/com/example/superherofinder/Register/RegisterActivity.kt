@@ -1,18 +1,18 @@
-package com.example.superherofinder
+package com.example.superherofinder.Register
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
-import com.example.superherofinder.databinding.ActivityLoginBinding
+import com.example.superherofinder.BdInterface
+import com.example.superherofinder.Login.LoginActivity
+import com.example.superherofinder.Registerdto
 import com.example.superherofinder.databinding.ActivityRegisterBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.create
 
 class RegisterActivity : AppCompatActivity() {
     lateinit var  binding:ActivityRegisterBinding
@@ -36,7 +36,7 @@ class RegisterActivity : AppCompatActivity() {
         binding.btnRegister.setOnClickListener {
 
             if (validarFormRegister()){
-                val user=Registerdto(binding.etNombreRegister.text.toString(),binding.etApellidoRegister.text.toString(),binding.etCorreoRegister.text.toString(),binding.etContraseniaRegister.text.toString())
+                val user= Registerdto(binding.etNombreRegister.text.toString(),binding.etApellidoRegister.text.toString(),binding.etCorreoRegister.text.toString(),binding.etContraseniaRegister.text.toString())
                 CoroutineScope(Dispatchers.IO).launch {
                     val response = service.signUP(user)
                     if (response.isSuccessful){
@@ -55,7 +55,7 @@ class RegisterActivity : AppCompatActivity() {
     }
 
     private fun navigateToLogin() {
-        val intent = Intent(this@RegisterActivity,LoginActivity::class.java)
+        val intent = Intent(this@RegisterActivity, LoginActivity::class.java)
         startActivity(intent)
     }
 

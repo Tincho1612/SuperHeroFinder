@@ -1,10 +1,13 @@
-package com.example.superherofinder
+package com.example.superherofinder.SuperheroListmain.RecyclerView
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.superherofinder.R
+import com.example.superherofinder.SuperHeroItemResponse
+import com.example.superherofinder.SuperheroListmain.RecyclerView.SuperHeroesViewHolder
 
-class SuperHeroesAdapter(private var superHeroes:List<SuperHeroItemResponse> = emptyList(),private val onItemSelected:(String)->Unit) : RecyclerView.Adapter<SuperHeroesViewHolder>() {
+class SuperHeroesAdapter(private var superHeroes:List<SuperHeroItemResponse> = emptyList(), private val onItemSelected:(String)->Unit) : RecyclerView.Adapter<SuperHeroesViewHolder>() {
     fun updateList(superHeroes:List<SuperHeroItemResponse>){
         this.superHeroes=superHeroes
         notifyDataSetChanged()
