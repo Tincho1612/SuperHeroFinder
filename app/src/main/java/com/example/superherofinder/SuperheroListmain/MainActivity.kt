@@ -12,6 +12,8 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.superherofinder.*
 import com.example.superherofinder.Favoritos.FavoritosActivity
+import com.example.superherofinder.Login.LoginActivity
+import com.example.superherofinder.ModificarUsuario.ModificarUserActivity
 import com.example.superherofinder.SuperheroDetails.DetailsHeroActivity
 import com.example.superherofinder.SuperheroDetails.DetailsHeroActivity.Companion.EXTRA_ID
 import com.example.superherofinder.SuperheroListmain.RecyclerView.SuperHeroesAdapter
@@ -29,10 +31,12 @@ class MainActivity : AppCompatActivity() {
     private lateinit var adapter: SuperHeroesAdapter
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var navigationView: NavigationView
+    private lateinit var tokenManager: TokenManager
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding= ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        tokenManager=TokenManager(this)
         retrofit=getRetrofit()
         initUI()
     }
@@ -139,6 +143,21 @@ class MainActivity : AppCompatActivity() {
                     true
                  }
                 R.id.nav_item4 -> {
+                    val intent= Intent(this@MainActivity,ModificarUserActivity::class.java)
+                    startActivity(intent)
+                    true
+                }
+                R.id.nav_item5 -> {
+                    true
+                }
+                R.id.nav_item6 -> {
+                    true
+                }
+                R.id.nav_item7 -> {
+                    val intent=Intent(this@MainActivity,LoginActivity::class.java)
+                    tokenManager.clearToken()
+                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    startActivity(intent)
                     true
                 }
                 // Agregar más casos según sea necesario

@@ -64,7 +64,7 @@ class FavoritosActivity : AppCompatActivity() {
 
     private fun getRetrofit(): Retrofit {
         return Retrofit.Builder()
-            .baseUrl("https://servidor-superherogame.vercel.app/api/")
+            .baseUrl("https://servidor-superherogame.vercel.app/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }
@@ -80,7 +80,7 @@ class FavoritosActivity : AppCompatActivity() {
     private fun initRecycler(lista:ArrayList<SuperHeroDetailsResponse>){
         binding.rvSuperhero.setHasFixedSize(true)
         binding.rvSuperhero.layoutManager = LinearLayoutManager(this)
-        binding.rvSuperhero.adapter=FavoritosAdapter(lista)
+        binding.rvSuperhero.adapter=FavoritosAdapter(lista,this@FavoritosActivity)
     }
 
 }

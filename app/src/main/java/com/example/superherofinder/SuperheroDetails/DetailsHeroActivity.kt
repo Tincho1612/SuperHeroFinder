@@ -5,8 +5,8 @@ import android.os.Bundle
 import android.util.Log
 import android.util.TypedValue
 import android.view.View
-import com.example.superherofinder.ApiService
-import com.example.superherofinder.SuperHeroDetailsResponse
+import android.widget.Toast
+import com.example.superherofinder.*
 import com.example.superherofinder.databinding.ActivityDetailsHeroBinding
 import com.squareup.picasso.Picasso
 import kotlinx.coroutines.CoroutineScope
@@ -21,12 +21,31 @@ class DetailsHeroActivity : AppCompatActivity() {
         const val EXTRA_ID="extra_id"
     }
     private lateinit var binding:ActivityDetailsHeroBinding
+    private lateinit var tokenManager:TokenManager
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding= ActivityDetailsHeroBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        tokenManager= TokenManager(this)
         val id= intent.getStringExtra(EXTRA_ID).orEmpty()
         getSuperHeroInformation(id)
+        binding.btnAgregarFavorito.setOnClickListener {
+            agregarFav(id)
+        }
+
+    }
+
+    private fun agregarFav(id: String) {
+        val retrofit=getRetrofitBdd()
+        val service=retrofit.create(BdInterface::class.java)
+        CoroutineScope(Dispatchers.IO).launch {
+            val response=service.agregarFav(id.toInt(),tokenManager.getToken()!!)
+            if (response.isSuccessful){
+                Log.i("AgregarFav","FUnciona ${response.body()}")
+            }else{
+                Log.i("AgregarFav","No FUnciona ${response}")
+            }
+        }
     }
 
     private fun getRetrofit(): Retrofit {
@@ -34,6 +53,12 @@ class DetailsHeroActivity : AppCompatActivity() {
         return Retrofit
             .Builder()
             .baseUrl("https://superheroapi.com/api/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+    }
+    private fun getRetrofitBdd(): Retrofit {
+        return Retrofit.Builder()
+            .baseUrl("https://servidor-superherogame.vercel.app/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }
