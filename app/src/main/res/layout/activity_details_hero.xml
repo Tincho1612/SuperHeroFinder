@@ -6,6 +6,8 @@
     android:layout_height="match_parent"
     tools:context=".SuperheroDetails.DetailsHeroActivity">
 
+
+
     <ImageView
         android:id="@+id/ivSuperHero"
         android:layout_width="match_parent"
@@ -15,6 +17,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
@@ -38,7 +42,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center_horizontal"
-                android:text="Test"
+                tools:text="Test"
                 android:textSize="28sp"
                 android:textStyle="bold" />
 
@@ -47,7 +51,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center_horizontal"
-                android:text="Publisher"
+                tools:text="Publisher"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
@@ -181,4 +185,15 @@
         app:layout_constraintStart_toStartOf="parent"
         android:backgroundTint="@color/teal_200"
         android:layout_marginBottom="36dp"/>
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:elevation="20dp"
+        tools:visibility="gone" />
 </androidx.constraintlayout.widget.ConstraintLayout>

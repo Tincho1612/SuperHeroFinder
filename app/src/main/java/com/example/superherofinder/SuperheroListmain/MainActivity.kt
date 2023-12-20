@@ -12,7 +12,9 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.superherofinder.*
 import com.example.superherofinder.Favoritos.FavoritosActivity
+import com.example.superherofinder.Historial.HistorialActivity
 import com.example.superherofinder.Login.LoginActivity
+import com.example.superherofinder.MiEquipo.MiEquipoActivity
 import com.example.superherofinder.ModificarUsuario.ModificarUserActivity
 import com.example.superherofinder.SuperheroDetails.DetailsHeroActivity
 import com.example.superherofinder.SuperheroDetails.DetailsHeroActivity.Companion.EXTRA_ID
@@ -148,9 +150,13 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
                 R.id.nav_item5 -> {
+                    val intent=Intent(this@MainActivity,HistorialActivity::class.java)
+                    startActivity(intent)
                     true
                 }
                 R.id.nav_item6 -> {
+                    val intent= Intent(this@MainActivity,MiEquipoActivity::class.java)
+                    startActivity(intent)
                     true
                 }
                 R.id.nav_item7 -> {

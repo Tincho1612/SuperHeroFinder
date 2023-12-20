@@ -14,6 +14,12 @@
         android:theme="@style/Theme.SuperHeroFinder"
         tools:targetApi="31">
         <activity
+            android:name=".Historial.HistorialActivity"
+            android:exported="false" />
+        <activity
+            android:name=".MiEquipo.MiEquipoActivity"
+            android:exported="false" />
+        <activity
             android:name=".ModificarUsuario.ModificarUserActivity"
             android:exported="false" />
         <activity

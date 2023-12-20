@@ -6,6 +6,7 @@ import android.util.Log
 import android.util.TypedValue
 import android.view.View
 import android.widget.Toast
+import androidx.core.view.isVisible
 import com.example.superherofinder.*
 import com.example.superherofinder.databinding.ActivityDetailsHeroBinding
 import com.squareup.picasso.Picasso
@@ -28,6 +29,7 @@ class DetailsHeroActivity : AppCompatActivity() {
         setContentView(binding.root)
         tokenManager= TokenManager(this)
         val id= intent.getStringExtra(EXTRA_ID).orEmpty()
+        binding.progressBar.isVisible=true
         getSuperHeroInformation(id)
         binding.btnAgregarFavorito.setOnClickListener {
             agregarFav(id)
@@ -64,12 +66,17 @@ class DetailsHeroActivity : AppCompatActivity() {
     }
 
     private fun getSuperHeroInformation(id: String) {
+        binding.progressBar.isVisible=true
         CoroutineScope(Dispatchers.IO).launch {
             val details=getRetrofit().create(ApiService::class.java).getHeroById(id)
             if (details.body()!=null){
-                runOnUiThread { initUI(details.body()!!) }
+                runOnUiThread { initUI(details.body()!!)
+                    binding.progressBar.isVisible=false
+                }
             }
         }
+
+
     }
 
     private fun initUI(body: SuperHeroDetailsResponse) {

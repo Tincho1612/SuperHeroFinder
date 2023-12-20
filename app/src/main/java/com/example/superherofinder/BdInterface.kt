@@ -32,6 +32,11 @@ interface BdInterface {
     @PUT("/api/user/update")
     suspend fun changePassword(@Body email: PassworDto,@Header("access-token") token: String):Response<*>
 
+    @GET("/api/user/favoritos")
+    suspend fun getMiEquipo(@Header("access-token") token:String):Response<*>
+
+    @GET("/api/pelea/getPeleas")
+    suspend fun getPeleas(@Header("access-token") token: String):Response<Peleas>
 }
 
 data class Userdto (
@@ -56,6 +61,17 @@ data class Emaildto(
 data class PassworDto(
     @SerializedName("password") val password: String
     )
+
+data class Pelea(
+    @SerializedName("idHeroe1") val idheroe1:Int,
+    @SerializedName("idHeroe2") val idheroe2:Int,
+    @SerializedName("idGanador") val idGanador:Int,
+    @SerializedName("fechaPelea") val fecha:String
+)
+
+data class Peleas(
+    @SerializedName("historialCompleto") val peleas:ArrayList<Pelea>
+)
 
 
 

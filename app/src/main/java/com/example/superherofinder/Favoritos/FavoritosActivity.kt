@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.inputmethod.CorrectionInfo
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.superherofinder.*
 import com.example.superherofinder.Favoritos.ReciclerView.FavoritosAdapter
@@ -32,6 +33,7 @@ class FavoritosActivity : AppCompatActivity() {
 
 
     private fun getFavoritos(tokenManager: TokenManager) {
+        binding.progressBar.isVisible=true
         val service = retrofit.create(BdInterface::class.java)
         CoroutineScope(Dispatchers.IO).launch {
             if (tokenManager.getToken() != null) {
@@ -58,6 +60,9 @@ class FavoritosActivity : AppCompatActivity() {
                 }
             } else {
                 Log.i("Favoritos", "No hay token")
+            }
+            runOnUiThread {
+                binding.progressBar.isVisible=false
             }
         }
     }
