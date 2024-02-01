@@ -12,7 +12,7 @@ interface BdInterface {
     suspend fun signIn(@Body user:Userdto): Response<LoginResponse>
 
     @POST(BuildConfig.LINK_DB_REG)
-    suspend fun signUP(@Body user:Registerdto): Response<String>
+    suspend fun signUP(@Body user:Registerdto): Response<*>
 
     @GET("/api/user/favoritos")
     suspend fun getFavs(@Header("access-token") token:String):Response<FavoritosResponse>

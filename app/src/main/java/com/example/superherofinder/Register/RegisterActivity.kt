@@ -3,6 +3,7 @@ package com.example.superherofinder.Register
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import com.example.superherofinder.BdInterface
 import com.example.superherofinder.Login.LoginActivity
@@ -46,6 +47,7 @@ class RegisterActivity : AppCompatActivity() {
                         }
                     }else{
                         runOnUiThread {
+                            Log.i("Register","${response.errorBody()}")
                             Toast.makeText(this@RegisterActivity, "El nombre o apellido tienen numeros o el servidor falla", Toast.LENGTH_LONG).show()
                         }
                     }
