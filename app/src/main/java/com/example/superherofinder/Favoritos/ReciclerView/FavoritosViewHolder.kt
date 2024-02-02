@@ -10,7 +10,7 @@ import com.squareup.picasso.Picasso
 
 class FavoritosViewHolder(view:View):RecyclerView.ViewHolder(view) {
     private val binding= ItemfavheroBinding.bind(view)
-    fun render(item: SuperHeroDetailsResponse, onItemSelected:()->Unit){
+    fun render(item: SuperHeroDetailsResponse,onClickDelete:(Int,Int)->Unit){
         binding.cantidadCombate.text=item.superHeroStats.combate
         binding.cantidadFuerza.text=item.superHeroStats.fuerza
         binding.cantidadPoder.text=item.superHeroStats.poder
@@ -20,8 +20,10 @@ class FavoritosViewHolder(view:View):RecyclerView.ViewHolder(view) {
         binding.tvHeroName.text=item.superHeroname
         Picasso.get().load(item.imagen.url).into(binding.ivSuperHero)
         binding.btnDelete.setOnClickListener {
-            onItemSelected()
+            onClickDelete(item.id.toInt(),adapterPosition)
         }
+
+
 
     }
 }

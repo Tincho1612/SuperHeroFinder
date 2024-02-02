@@ -20,6 +20,7 @@ class FavoritosActivity : AppCompatActivity() {
     private lateinit var retrofit: Retrofit
     private lateinit var tokenManager: TokenManager
     private lateinit var binding:ActivityFavoritosBinding
+    private lateinit var listaHeroe:ArrayList<SuperHeroDetailsResponse>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         binding= ActivityFavoritosBinding.inflate(layoutInflater)
@@ -29,6 +30,7 @@ class FavoritosActivity : AppCompatActivity() {
         retrofit = getRetrofit() // Asigna la instancia de Retrofit a la propiedad de clase
         Log.i("Favoritos", "Se crea la activity")
         getFavoritos(tokenManager)
+        Log.i("token","${tokenManager.getToken()}")
     }
 
 
@@ -50,7 +52,8 @@ class FavoritosActivity : AppCompatActivity() {
                          }
                     }
                     runOnUiThread {
-                        initRecycler(listaHeroes)
+                        listaHeroe=listaHeroes
+                        initRecycler(listaHeroe)
                     }
 
 
@@ -85,7 +88,33 @@ class FavoritosActivity : AppCompatActivity() {
     private fun initRecycler(lista:ArrayList<SuperHeroDetailsResponse>){
         binding.rvSuperhero.setHasFixedSize(true)
         binding.rvSuperhero.layoutManager = LinearLayoutManager(this)
-        binding.rvSuperhero.adapter=FavoritosAdapter(lista,this@FavoritosActivity)
+        binding.rvSuperhero.adapter=FavoritosAdapter(lista,this@FavoritosActivity) { position, id ->
+            onItemdelete(
+                position,
+                id
+            )
+        }
     }
+
+    private fun onItemdelete(position:Int,heroeId:Int){
+        val retrofit = getRetrofit()
+        val service = retrofit.create(BdInterface::class.java)
+        CoroutineScope(Dispatchers.IO).launch {
+            Log.i("Favoritos","Token:${tokenManager.getToken()}")
+            Log.i("Favoritos","id:${heroeId} + $position")
+            val response = service.eliminarFav(position,tokenManager.getToken()!!)
+            if (response.isSuccessful){
+                runOnUiThread {
+                    listaHeroe.removeAt(heroeId)
+                    binding.rvSuperhero.adapter?.notifyItemRemoved(heroeId)
+                }
+
+
+            }else{
+                Log.i("Favoritos","Error $response")
+            }
+        }
+    }
+
 
 }
