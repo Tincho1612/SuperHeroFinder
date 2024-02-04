@@ -49,31 +49,37 @@ class MainActivity : AppCompatActivity() {
         binding.serchSuperhero.setOnQueryTextListener(object :SearchView.OnQueryTextListener
         {
             override fun onQueryTextSubmit(query: String?): Boolean {
-                searchByName(query.orEmpty())
+                searchByName(query)
                 return false
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
+                searchByName(newText)
                 return false
             }
         }
         )
-        adapter= SuperHeroesAdapter(){navigateDetails(it)}
+        adapter= SuperHeroesAdapter(onItemSelected ={navigateDetails(it)})
         binding.rvSuperhero.setHasFixedSize(true)
         binding.rvSuperhero.layoutManager = LinearLayoutManager(this)
         binding.rvSuperhero.adapter=adapter
 
     }
 
-    private fun searchByName(aBuscar:String) {
+    private fun searchByName(aBuscar:String?) {
         binding.progressBar.isVisible=true
+        var parameter=aBuscar
+        if (parameter==null){
+            parameter="a"
+        }
         CoroutineScope(Dispatchers.IO).launch {
-            val myResponse = retrofit.create(ApiService::class.java).getSuperHeroes(aBuscar)
+            val myResponse = retrofit.create(ApiService::class.java).getSuperHeroes(parameter)
             if (myResponse.isSuccessful){
                 Log.i("consulting","Funciona :)")
                 val response: SuperHeroesDataResponse? = myResponse.body()
                 if (response != null){
                     runOnUiThread {
+
                         adapter.updateList(response.superheroes)
                         binding.progressBar.isVisible=false
 
@@ -81,7 +87,10 @@ class MainActivity : AppCompatActivity() {
                 }else{
                     Log.i("consulting","No funciona:)")
                 }
-            }else Log.i("consulting","No funciona:)")
+            }else {
+                Log.i("consulting","No funciona:)")
+
+            }
         }
     }
     private fun getRetrofit(): Retrofit {
@@ -101,6 +110,7 @@ class MainActivity : AppCompatActivity() {
                 if (response != null){
                     runOnUiThread {
                         adapter.updateList(response.superheroes)
+                        adapter.listDefault=response.superheroes
                         binding.progressBar.isVisible=false
 
                     }

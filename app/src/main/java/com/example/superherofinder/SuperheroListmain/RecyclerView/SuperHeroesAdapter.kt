@@ -7,10 +7,15 @@ import com.example.superherofinder.R
 import com.example.superherofinder.SuperHeroItemResponse
 import com.example.superherofinder.SuperheroListmain.RecyclerView.SuperHeroesViewHolder
 
-class SuperHeroesAdapter(private var superHeroes:List<SuperHeroItemResponse> = emptyList(), private val onItemSelected:(String)->Unit) : RecyclerView.Adapter<SuperHeroesViewHolder>() {
-    fun updateList(superHeroes:List<SuperHeroItemResponse>){
-        this.superHeroes=superHeroes
+class SuperHeroesAdapter(private var superHeroes:List<SuperHeroItemResponse> = emptyList(), private val onItemSelected:(String)->Unit, var listDefault:List<SuperHeroItemResponse> = emptyList()) : RecyclerView.Adapter<SuperHeroesViewHolder>() {
+    fun updateList(superHeroes:List<SuperHeroItemResponse>?){
+        if (superHeroes!=null){
+            this.superHeroes=superHeroes
+        }else{
+            this.superHeroes=listDefault
+        }
         notifyDataSetChanged()
+
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SuperHeroesViewHolder {
         val view= LayoutInflater.from(parent.context).inflate(R.layout.itemhero,parent,false)

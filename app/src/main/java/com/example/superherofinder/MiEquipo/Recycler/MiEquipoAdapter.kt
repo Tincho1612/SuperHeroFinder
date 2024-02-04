@@ -7,7 +7,7 @@ import com.example.superherofinder.Favoritos.ReciclerView.FavoritosViewHolder
 import com.example.superherofinder.R
 import com.example.superherofinder.SuperHeroDetailsResponse
 
-class MiEquipoAdapter(private val heroes:List<SuperHeroDetailsResponse>):RecyclerView.Adapter<MiEquipoViewHolder>(){
+class MiEquipoAdapter(private val heroes:List<SuperHeroDetailsResponse>,val onClick:(Int)->Unit):RecyclerView.Adapter<MiEquipoViewHolder>(){
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MiEquipoViewHolder {
         val view= LayoutInflater.from(parent.context).inflate(R.layout.item_mi_equipo,parent,false)
         return MiEquipoViewHolder(view)
@@ -18,7 +18,7 @@ class MiEquipoAdapter(private val heroes:List<SuperHeroDetailsResponse>):Recycle
     }
 
     override fun onBindViewHolder(holder: MiEquipoViewHolder, position: Int) {
-        holder.render(heroes[position])
+        holder.render(heroes[position],onClick)
     }
 
 }

@@ -3,6 +3,7 @@ package com.example.superherofinder.MiEquipo
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.superherofinder.ApiService
@@ -19,6 +20,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.create
 
 class MiEquipoActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMiEquipoBinding
@@ -62,7 +64,7 @@ class MiEquipoActivity : AppCompatActivity() {
     private fun initRecycler(listaHeroes: ArrayList<SuperHeroDetailsResponse>) {
         binding.rvSuperhero.setHasFixedSize(true)
         binding.rvSuperhero.layoutManager = LinearLayoutManager(this)
-        binding.rvSuperhero.adapter=MiEquipoAdapter(listaHeroes)
+        binding.rvSuperhero.adapter=MiEquipoAdapter(listaHeroes) { id -> onClickAddFav(id) }
 
     }
 
@@ -79,5 +81,19 @@ class MiEquipoActivity : AppCompatActivity() {
            .baseUrl("https://superheroapi.com/api/")
            .addConverterFactory(GsonConverterFactory.create())
            .build()
+    }
+
+    private fun onClickAddFav(id:Int){
+        val service = retrofit.create(BdInterface::class.java)
+        CoroutineScope(Dispatchers.IO).launch {
+            val response=service.agregarFav(id,tokenManager.getToken().toString())
+            if (response.isSuccessful){
+                runOnUiThread {
+                    Toast.makeText(this@MiEquipoActivity,"Se añadio a favoritos correctamente",Toast.LENGTH_LONG).show()
+                }
+            }else{
+                Toast.makeText(this@MiEquipoActivity,"Ocurrio un error al agregar el super heroe",Toast.LENGTH_LONG).show()
+            }
+        }
     }
 }
