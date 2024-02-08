@@ -43,7 +43,10 @@ class DetailsHeroActivity : AppCompatActivity() {
         CoroutineScope(Dispatchers.IO).launch {
             val response=service.agregarFav(id.toInt(),tokenManager.getToken()!!)
             if (response.isSuccessful){
-                Log.i("AgregarFav","FUnciona ${response.body()}")
+                runOnUiThread {
+                    Toast.makeText(this@DetailsHeroActivity,"Se añadio Correctamente a favoritos",Toast.LENGTH_LONG).show()
+                }
+
             }else{
                 Log.i("AgregarFav","No FUnciona ${response}")
             }

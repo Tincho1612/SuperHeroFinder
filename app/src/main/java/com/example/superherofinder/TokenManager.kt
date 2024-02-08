@@ -6,6 +6,7 @@ import androidx.core.content.edit
 class TokenManager(context: Context) {
     private val sharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
 
+
     companion object {
         private const val PREFS_NAME = "MyAppPrefs"
         private const val KEY_TOKEN = "jwt_token"

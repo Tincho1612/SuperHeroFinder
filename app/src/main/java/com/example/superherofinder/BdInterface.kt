@@ -37,8 +37,32 @@ interface BdInterface {
 
     @GET("/api/pelea/getPeleas")
     suspend fun getPeleas(@Header("access-token") token: String):Response<Peleas>
+
+    @POST("/api/auth/requestConfirmationEmail")
+    suspend fun getConfirmEmail(
+        @Header("access-token") token: String,
+        @Body body: Map<String, String>
+    ): Response<*>
+
+    @GET("/api/user/getActualUser")
+    suspend fun getActualUser(@Header("access-token") token:String):Response<UserResponse>
 }
 
+
+data class UserResponse(
+    @SerializedName("userResponse") val userDetails: UserDetails
+)
+data class UserDetails (
+    @SerializedName("_id") val id:String,
+    @SerializedName("nombre") val nombre:String,
+    @SerializedName("apellido") val apellido:String,
+    @SerializedName("email") var email:String,
+    @SerializedName("favoritos") val favoritos:Array<Int>,
+    @SerializedName("equipos") val equipos:Array<Int>,
+    @SerializedName("historial") val historial:Array<String>,
+    @SerializedName("confirmado") val confirmado:Boolean
+
+)
 data class Userdto (
     val email:String,
     val password:String

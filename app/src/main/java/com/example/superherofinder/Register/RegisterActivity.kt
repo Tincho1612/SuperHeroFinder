@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import com.example.superherofinder.BdInterface
 import com.example.superherofinder.Login.LoginActivity
 import com.example.superherofinder.Registerdto
@@ -29,27 +30,47 @@ class RegisterActivity : AppCompatActivity() {
     }
 
     private fun initUI(){
+
+        binding.tvLoguearse.setOnClickListener {
+            navigateToLogin()
+        }
         btnRegistrarse()
     }
 
     private fun btnRegistrarse() {
-        val service = retrofit.create(BdInterface::class.java)
-        binding.btnRegister.setOnClickListener {
 
-            if (validarFormRegister()){
-                val user= Registerdto(binding.etNombreRegister.text.toString(),binding.etApellidoRegister.text.toString(),binding.etCorreoRegister.text.toString(),binding.etContraseniaRegister.text.toString())
-                CoroutineScope(Dispatchers.IO).launch {
-                    val response = service.signUP(user)
-                    if (response.isSuccessful){
-                        runOnUiThread {
-                            Toast.makeText(this@RegisterActivity, "Te registraste correctamente", Toast.LENGTH_LONG).show()
-                            navigateToLogin()
-                        }
-                    }else{
-                        runOnUiThread {
-                            Log.i("Register","${response.errorBody()}")
-                            Toast.makeText(this@RegisterActivity, "El nombre o apellido tienen numeros o el servidor falla", Toast.LENGTH_LONG).show()
-                        }
+        binding.btnRegister.setOnClickListener {
+           registrarse()
+        }
+    }
+    private fun dialog(title:String,message:String,onAccept:()->Unit) {
+        val dialog = AlertDialog.Builder(this).setTitle(title)
+            .setMessage(message)
+            .setPositiveButton("Aceptar") { _, _ ->
+                onAccept()
+            }
+            .setCancelable(false)
+
+
+        dialog.show()
+    }
+
+    private fun registrarse(){
+        val service = retrofit.create(BdInterface::class.java)
+        if (validarFormRegister()){
+            val user= Registerdto(binding.etNombreRegister.text.toString(),binding.etApellidoRegister.text.toString(),binding.etCorreoRegister.text.toString(),binding.etContraseniaRegister.text.toString())
+            CoroutineScope(Dispatchers.IO).launch {
+                val response = service.signUP(user)
+                if (response.isSuccessful){
+                    runOnUiThread {
+                        Toast.makeText(this@RegisterActivity, "Te registraste correctamente", Toast.LENGTH_LONG).show()
+                        dialog("Register","Te registraste correctamente, se te envio un email a tu cuenta asociada y se te otorgaron 5 heroes en tu equipo de regalo"){navigateToLogin()}
+
+                    }
+                }else{
+                    runOnUiThread {
+                        Log.i("Register","${response.errorBody()}")
+                        Toast.makeText(this@RegisterActivity, "El nombre o apellido tienen numeros o el servidor falla", Toast.LENGTH_LONG).show()
                     }
                 }
             }
@@ -59,6 +80,7 @@ class RegisterActivity : AppCompatActivity() {
     private fun navigateToLogin() {
         val intent = Intent(this@RegisterActivity, LoginActivity::class.java)
         startActivity(intent)
+        finish()
     }
 
     private fun validarFormRegister():Boolean{

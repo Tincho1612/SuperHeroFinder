@@ -17,14 +17,17 @@ class ModificarUserActivity : AppCompatActivity() {
     private lateinit var tokenManager: TokenManager
     private lateinit var binding: ActivityModificarUserBinding
     private lateinit var retrofit: Retrofit
+    private lateinit var userManager: UserManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding= ActivityModificarUserBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        userManager = UserManager(this)
         tokenManager= TokenManager(this)
         retrofit=getRetrofit()
         initUI()
+
 
     }
     private fun getRetrofit(): Retrofit {
@@ -52,6 +55,12 @@ class ModificarUserActivity : AppCompatActivity() {
             val respuesta=service.changeEmail(Emaildto(email),tokenManager.getToken()!!)
             if (respuesta.isSuccessful){
                 Log.i("password","Funciona ")
+                var user = userManager.getUser()
+                if (user != null) {
+                    user.email=email
+                    userManager.clearUser();
+                    userManager.saveUser(user)
+                }
                 runOnUiThread {
                     Toast.makeText(this@ModificarUserActivity, "El Email se cambio correctamente", Toast.LENGTH_SHORT).show()
                 }

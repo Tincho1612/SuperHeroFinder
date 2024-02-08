@@ -47,6 +47,7 @@ class HistorialActivity : AppCompatActivity() {
                 Log.i("Peleas","Peleas:${response.body()}")
                 if (response.body()==null){
                     runOnUiThread {
+                        binding.progressBar.isVisible=false
                         binding.tvNoHayPeleas.isVisible=true
                     }
 

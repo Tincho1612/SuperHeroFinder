@@ -45,6 +45,11 @@ class FavoritosActivity : AppCompatActivity() {
                     var listaHeroes= ArrayList<SuperHeroDetailsResponse>()
                     val retrofitHeroes=getRetrofitHeroes()
                     val serviceHeroes=retrofitHeroes.create(ApiService::class.java)
+
+                    if (response.body()?.superHeroesId==null){
+                        runOnUiThread { binding.tvNoHayFavs.isVisible=true }
+                    }
+
                     response.body()?.superHeroesId?.forEach { superHeroId ->
                         val responseHeroe=serviceHeroes.getHeroById(superHeroId.toString())
                          if (responseHeroe.isSuccessful){
@@ -106,6 +111,9 @@ class FavoritosActivity : AppCompatActivity() {
             if (response.isSuccessful){
                 runOnUiThread {
                     listaHeroe.removeAt(heroeId)
+                    if (listaHeroe.isEmpty()){
+                        binding.tvNoHayFavs.isVisible=true
+                    }
                     binding.rvSuperhero.adapter?.notifyItemRemoved(heroeId)
                 }
 

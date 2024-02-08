@@ -63,36 +63,6 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    /*private fun callApi(tokenManager: TokenManager,correo:String,contraseña:String) {
-        tokenManager.clearToken()
-        val signInRequest = Userdto(correo,contraseña)
-        val apiService = retrofit.create(BdInterface::class.java)
-
-        apiService.signIn(signInRequest).enqueue(object : Callback<LoginResponse> {
-            override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
-                if (response.isSuccessful) {
-                    Log.i("API3","Token:${response.body()?.token}")
-                    // Guarda el token en SharedPreferences
-                    val token = response.body()?.token
-                        token?.let { tokenManager.saveToken(it) }
-                    val intent = Intent(this@LoginActivity,MainActivity::class.java)
-                    startActivity(intent)
-
-                // Puedes realizar otras acciones con el token aquí si es necesario
-                } else {
-                    // Lanza una excepción en caso de error
-                    tokenManager.clearToken()
-                    Log.i("API3","algo mal salio${response.errorBody()}")
-                }
-            }
-
-            override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
-                // Lanza una excepción en caso de error
-                Log.i("API3","No se mando")
-            }
-        })
-    }*/
-
 
     private fun initUI() {
         btnIngresar()
@@ -121,6 +91,7 @@ class LoginActivity : AppCompatActivity() {
     private fun navigateToMain(){
         val intent=Intent(this@LoginActivity, MainActivity::class.java)
         startActivity(intent)
+        finish()
     }
 
     private fun validarForm():Boolean{
@@ -144,6 +115,7 @@ class LoginActivity : AppCompatActivity() {
     private fun navigateToRegister() {
         val intent = Intent(this, RegisterActivity::class.java)
         startActivity(intent)
+
     }
 }
 
