@@ -28,6 +28,7 @@ import com.example.superherofinder.SuperheroDetails.DetailsHeroActivity
 import com.example.superherofinder.SuperheroDetails.DetailsHeroActivity.Companion.EXTRA_ID
 import com.example.superherofinder.SuperheroListmain.RecyclerView.SuperHeroesAdapter
 import com.example.superherofinder.databinding.ActivityMainBinding
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.navigation.NavigationView
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -230,14 +231,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun dialog(title:String,message:String,onAccept:()->Unit) {
-        val dialog = AlertDialog.Builder(this).setTitle(title)
+        val dialog = MaterialAlertDialogBuilder(this@MainActivity)
+            .setTitle(title)
             .setMessage(message)
-            .setPositiveButton("Aceptar") { _, _ ->
+            .setPositiveButton("Aceptar") { dialog, which ->
                 onAccept()
-            }
-            .setCancelable(false)
-
-        dialog.show()
+            }.show()
     }
 
     private fun isConfirm(){

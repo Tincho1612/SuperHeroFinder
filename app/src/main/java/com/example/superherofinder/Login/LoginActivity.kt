@@ -3,13 +3,16 @@ package com.example.superherofinder.Login
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import com.example.superherofinder.BdInterface
+import com.example.superherofinder.R
 import com.example.superherofinder.Register.RegisterActivity
 import com.example.superherofinder.SuperheroListmain.MainActivity
 import com.example.superherofinder.TokenManager
 import com.example.superherofinder.Userdto
 import com.example.superherofinder.databinding.ActivityLoginBinding
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -46,9 +49,18 @@ class LoginActivity : AppCompatActivity() {
             if (response.isSuccessful){
                 if (response.body()?.token!= null){
                     runOnUiThread {
-                        tokenManager.saveToken(response.body()!!.token)
-                        Toast.makeText(this@LoginActivity, "Se ah logueado correctamente", Toast.LENGTH_LONG).show()
-                        navigateToMain()
+                        val view = findViewById<View>(R.id.btnIngresar)
+                        val snackBar=Snackbar.make(view, "Te logueaste correctamente", Snackbar.LENGTH_SHORT)
+                        snackBar.addCallback(object : Snackbar.Callback() {
+                            override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
+                                tokenManager.saveToken(response.body()!!.token)
+                                navigateToMain()
+                            }
+                        }).setAction("Aceptar"){
+
+                        }.show()
+
+
                     }
 
                 }

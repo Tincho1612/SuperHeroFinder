@@ -10,7 +10,6 @@
         android:layout_height="wrap_content"
         android:text="Modificar Usuario"
         android:textSize="28sp"
-        android:textColor="#2196F3"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="32dp"/>
 
@@ -33,7 +32,6 @@
         android:inputType="textEmailAddress"
         android:layout_below="@id/editTextEmail"
         android:layout_marginTop="8dp"
-        android:backgroundTint="#2196F3"
        />
 
     <Button

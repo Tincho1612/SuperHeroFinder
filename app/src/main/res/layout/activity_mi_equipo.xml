@@ -16,7 +16,7 @@
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"/>
     <TextView
-        android:id="@+id/tvFavoritos"
+        android:id="@+id/tvEquipo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Tu Equipo"
@@ -33,7 +33,7 @@
         android:layout_height="0dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvFavoritos"
+        app:layout_constraintTop_toBottomOf="@id/tvEquipo"
         app:layout_constraintBottom_toBottomOf="parent"
         />
 
